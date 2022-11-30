@@ -18,7 +18,7 @@ typedef enum TURN_DIRECTION {
 };
 
 
-void spinMotor(int motorSpeed, uint8_t motor) {
+void spinMotor(int motorSpeed, int motor) {
 
   if (motor == PWMA) {
     if (motorSpeed > 0) {
@@ -84,12 +84,18 @@ void setup() {
 
   Serial.begin(9600);
 
+  spinMotor(-200, PWMA);
+
+
+
+
+  /*
   speed(200);
   delay(1000);
-  speed(int(-200));
+  speed(-200);
   delay(1000);
   speed(0);
-  /*turn(LEFT, 200);
+  xturn(LEFT, 200);
   delay(1000);
   turn(RIGHT, 200);
   delay(1000);
