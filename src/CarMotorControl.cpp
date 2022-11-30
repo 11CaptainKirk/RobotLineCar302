@@ -13,8 +13,11 @@ const int lineLeft = A0;// the line sensors
 const int lineMid = A1;
 const int lineRight = A2;
 
-#define WHITE_MAX 500
-#define BLACK_MIN 700
+#define WHITE_MAX 750
+#define BLACK_MIN 750
+
+#define MS_TO_PIVOT 200 // the number of MS to drive before we reach the pivot point at 100 speed
+
 
 
 
@@ -75,30 +78,32 @@ void spinMotor(int motorSpeed, int motor) {
 }
 
 void speed(int moveSpeed) {
-  spinMotor(moveSpeed, PWMA);
+  spinMotor(moveSpeed * 1, PWMA);
   spinMotor(moveSpeed, PWMB);
 }
 
 void turn(TURN_DIRECTION direction, uint8_t turnSpeed) {
   if (direction == LEFT) {
-    spinMotor(turnSpeed, PWMA);
-    spinMotor(-turnSpeed, PWMB);
-  }
-  else {
     spinMotor(-turnSpeed, PWMA);
     spinMotor(turnSpeed, PWMB);
+  }
+  else {
+    spinMotor(turnSpeed, PWMA);
+    spinMotor(-turnSpeed, PWMB);
   }
 }
 
 
+
 typedef enum COLOR {
-  RED,
+  WHITE,
   BLACK,
-  WHITE
+  RED
 };
 
 COLOR lineStatus(uint8_t lineSensor) {
   int value = analogRead(lineSensor);
+  //Serial.println(value);
   if (value < WHITE_MAX) {
     return WHITE;
   }
@@ -112,21 +117,42 @@ COLOR lineStatus(uint8_t lineSensor) {
 
 
 typedef enum MOVE_NEEDED {
-  SMALL_LEFT,
-  SMALL_RIGHT,
-  BREAK_LEFT,
-  BREAK_RIGHT,
-  STRAIGHT,
-  FAST,
-  STOP
+  SMALL_LEFT, //0
+  SMALL_RIGHT, //1
+  BREAK_LEFT, //2
+  BREAK_RIGHT, //3
+  STRAIGHT, //4
+  FAST,//5
+  STOP//6
 };
+
+String encodeDirection(MOVE_NEEDED direction) {
+  switch (direction) {
+  case SMALL_LEFT:
+    return "SMALL_LEFT";
+  case SMALL_RIGHT:
+    return "SMALL_RIGHT";
+  case BREAK_LEFT:
+    return "BREAK_LEFT";
+  case BREAK_RIGHT:
+    return "BREAK_RIGHT";
+  case STRAIGHT:
+    return "STRAIGHT";
+  case FAST:
+    return "FAST";
+  case STOP:
+    return "STOP";
+  }
+}
+
+
 
 
 MOVE_NEEDED moveNeeded() {
   COLOR left = lineStatus(lineLeft);
   COLOR mid = lineStatus(lineMid);
   COLOR right = lineStatus(lineRight);
-  Serial.println("left: " + String(left) + " mid: " + String(mid) + " right: " + String(right));
+  Serial.println("L: " + String(left) + " M: " + String(mid) + " R: " + String(right));
 
   if (left == WHITE && mid == BLACK && right == WHITE) {
     return STRAIGHT;
@@ -149,10 +175,52 @@ MOVE_NEEDED moveNeeded() {
   else if (left == RED && mid == RED && right == RED) {
     return STOP;
   }
+  /*else if (left == WHITE && mid == WHITE && right == WHITE) {
+    return STRAIGHT;
+  }*/
   else {
     return STOP;
   }
 }
+
+void driveForwardToPivot() {
+  speed(100);
+  delay(MS_TO_PIVOT);
+  speed(0);
+}
+
+void drive() {
+  MOVE_NEEDED move = moveNeeded();
+  Serial.println("move: " + encodeDirection(move));
+  switch (move) {
+  case STRAIGHT:
+    speed(175);
+    break;
+  case SMALL_LEFT:
+    turn(LEFT, 200);
+    break;
+  case SMALL_RIGHT:
+    turn(RIGHT, 200);
+    break;
+  case BREAK_LEFT:
+    driveForwardToPivot();
+    turn(LEFT, 255);
+    delay(100);
+    break;
+  case BREAK_RIGHT:
+    driveForwardToPivot();
+    turn(RIGHT, 255);
+    delay(100);
+    break;
+  case FAST:
+    speed(200);
+    break;
+  case STOP:
+    speed(0);
+    break;
+  }
+}
+
 
 void setup() {
   pinMode(switchPin, INPUT_PULLUP);
@@ -168,24 +236,19 @@ void setup() {
 
 
 
-  speed(-200);
-  delay(1000);
-  speed(-200);
-  delay(1000);
-  speed(0);
-
-  turn(LEFT, 200);
-  delay(1000);
-  turn(RIGHT, 200);
-  delay(1000);
-  speed(0);
 }
 
 
-
+bool driveYes = true;
 
 void loop() {
 
-
+  if (driveYes) {
+    drive();
+    delay(75);
+  }
+  else {
+    speed(0);
+  }
 }
 
