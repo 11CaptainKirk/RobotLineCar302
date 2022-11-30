@@ -9,6 +9,28 @@ const int PWMA = 11;
 const int PWMB = 10; // the second motor added
 
 
+const int lineLeft = A0;// the line sensors
+const int lineMid = A1;
+const int lineRight = A2;
+
+#define WHITE_MAX 500
+#define BLACK_MIN 700
+
+
+
+/*
+black min 723
+844
+
+red min 490
+692
+
+white min 158
+594
+*/
+
+
+
 int switchPin = 7;
 
 
@@ -49,7 +71,7 @@ void spinMotor(int motorSpeed, int motor) {
       digitalWrite(BIN2, LOW);
     }
   }
-  analogWrite(motor, motorSpeed);
+  analogWrite(motor, abs(motorSpeed));
 }
 
 void speed(int moveSpeed) {
@@ -69,8 +91,68 @@ void turn(TURN_DIRECTION direction, uint8_t turnSpeed) {
 }
 
 
+typedef enum COLOR {
+  RED,
+  BLACK,
+  WHITE
+};
+
+COLOR lineStatus(uint8_t lineSensor) {
+  int value = analogRead(lineSensor);
+  if (value < WHITE_MAX) {
+    return WHITE;
+  }
+  else if (value > WHITE_MAX && value < BLACK_MIN) {
+    return RED;
+  }
+  else {
+    return BLACK;
+  }
+}
 
 
+typedef enum MOVE_NEEDED {
+  SMALL_LEFT,
+  SMALL_RIGHT,
+  BREAK_LEFT,
+  BREAK_RIGHT,
+  STRAIGHT,
+  FAST,
+  STOP
+};
+
+
+MOVE_NEEDED moveNeeded() {
+  COLOR left = lineStatus(lineLeft);
+  COLOR mid = lineStatus(lineMid);
+  COLOR right = lineStatus(lineRight);
+  Serial.println("left: " + String(left) + " mid: " + String(mid) + " right: " + String(right));
+
+  if (left == WHITE && mid == BLACK && right == WHITE) {
+    return STRAIGHT;
+  }
+  else if (left == WHITE && mid == WHITE && right == BLACK) {
+    return SMALL_RIGHT;
+  }
+  else if (left == WHITE && mid == BLACK && right == BLACK) {
+    return BREAK_RIGHT;
+  }
+  else if (left == BLACK && mid == WHITE && right == WHITE) {
+    return SMALL_LEFT;
+  }
+  else if (left == BLACK && mid == BLACK && right == WHITE) {
+    return BREAK_LEFT;
+  }
+  else if (left == BLACK && mid == BLACK && right == BLACK) {
+    return FAST;
+  }
+  else if (left == RED && mid == RED && right == RED) {
+    return STOP;
+  }
+  else {
+    return STOP;
+  }
+}
 
 void setup() {
   pinMode(switchPin, INPUT_PULLUP);
@@ -84,23 +166,23 @@ void setup() {
 
   Serial.begin(9600);
 
-  spinMotor(-200, PWMA);
 
 
-
-
-  /*
-  speed(200);
+  speed(-200);
   delay(1000);
   speed(-200);
   delay(1000);
   speed(0);
-  xturn(LEFT, 200);
+
+  turn(LEFT, 200);
   delay(1000);
   turn(RIGHT, 200);
   delay(1000);
-  speed(0);*/
+  speed(0);
 }
+
+
+
 
 void loop() {
 
