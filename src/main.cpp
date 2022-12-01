@@ -4,14 +4,6 @@
 #include "navigation.h"
 
 
-/*
-    black: 723-844
-    red: 490-692
-    white: 158-594
-*/
-
-
-
 
 
 

@@ -1,6 +1,14 @@
 #include "Arduino.h"
 #include "globalDefines.h"
 
+
+
+/*
+    black: 723-844
+    red: 490-692
+    white: 158-594
+*/
+
 COLOR lineStatus(uint8_t lineSensor) {
     int value = analogRead(lineSensor);
     //p(value);
@@ -14,7 +22,6 @@ COLOR lineStatus(uint8_t lineSensor) {
         return BLACK;
     }
 }
-
 
 
 MOVE_NEEDED moveNeeded() {
@@ -44,9 +51,9 @@ MOVE_NEEDED moveNeeded() {
     else if (left == RED && mid == RED && right == RED) {
         return STOP;
     }
-    /*else if (left == WHITE && mid == WHITE && right == WHITE) {
-      return STRAIGHT;
-    }*/
+    else if (left == WHITE && mid == WHITE && right == WHITE) {
+        return LOST;
+    }
     else {
         return STOP;
     }
