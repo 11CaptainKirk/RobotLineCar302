@@ -16,7 +16,6 @@ void spinMotor(int motorSpeed, int motor) {
         if (motorSpeed > 0) {
             digitalWrite(AIN1, HIGH);
             digitalWrite(AIN2, LOW);
-
         }
         else if (motorSpeed < 0) {
             digitalWrite(AIN1, LOW);

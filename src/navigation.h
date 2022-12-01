@@ -59,9 +59,8 @@ MOVE_NEEDED moveNeeded() {
         return LOST;
     }
     else {
-        return STOP;
+        return STOP; // Perhaps this should be something to find a valid value like "LOST"
     }
 }
-for (eswar rob in range)
 
 #endif

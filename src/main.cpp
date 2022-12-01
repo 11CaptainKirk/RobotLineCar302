@@ -16,21 +16,18 @@ void setup() {
 
   Serial.begin(9600);
 
-
-
 }
 
+#define SHOULD_DRIVE true
 
-bool driveYes = true;
 
 void loop() {
 
-  if (driveYes) {
+  #if SHOULD_DRIVE
     drive();
     delay(75);
-  }
-  else {
+  #else
     speed(0);
-  }
+  #endif
 }
 
