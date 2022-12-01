@@ -20,14 +20,14 @@ void setup() {
 
 #define SHOULD_DRIVE true
 
-uint8_t turnsToTake[] = { 1,2,4 };
-uint8_t* turnsToTakePtr = turnsToTake;
+uint8_t turnsToTake[] = { 1,2 };
 
 
 void loop() {
 
 #if SHOULD_DRIVE
-  drive(&turnsToTakePtr);
+  drive(turnsToTake);
+  // function to figure out where we are
   // Detect obstacles function
   delay(75);
 #else
