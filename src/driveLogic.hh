@@ -6,8 +6,9 @@
 
 
 
-void drive() {
+void drive(uint8_t* turnsToTakePtr[]) {
     MOVE_NEEDED move = moveNeeded();
+    static uint8_t turnIndex = 0; // Static variable initializes to 0 on first call
     pl("move: " + encodeDirection(move));
     switch (move) {
     case STRAIGHT:
