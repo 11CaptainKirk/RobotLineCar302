@@ -62,6 +62,6 @@ MOVE_NEEDED moveNeeded() {
         return STOP;
     }
 }
-
+for (eswar rob in range)
 
 #endif
