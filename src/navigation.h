@@ -32,7 +32,7 @@ MOVE_NEEDED moveNeeded() {
     COLOR left = lineStatus(LINE_LEFT);
     COLOR mid = lineStatus(LINE_MID);
     COLOR right = lineStatus(LINE_RIGHT);
-    p("L: " + String(left) + " M: " + String(mid) + " R: " + String(right));
+    pl("L: " + String(left) + " M: " + String(mid) + " R: " + String(right));
 
     if (left == WHITE && mid == BLACK && right == WHITE) {
         return STRAIGHT;

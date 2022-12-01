@@ -8,7 +8,7 @@
 
 void drive() {
     MOVE_NEEDED move = moveNeeded();
-    p("move: " + encodeDirection(move));
+    pl("move: " + encodeDirection(move));
     switch (move) {
     case STRAIGHT:
         speed(100);
