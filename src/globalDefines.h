@@ -28,4 +28,55 @@
 #define pl(x)
 #endif
 
+// ENUMS
+
+enum COLOR {
+    WHITE,
+    BLACK,
+    RED
+};
+
+
+
+enum TURN_DIRECTION {
+    LEFT,
+    RIGHT,
+};
+
+enum MOVE_NEEDED {
+    SMALL_LEFT, //0
+    SMALL_RIGHT, //1
+    BREAK_LEFT, //2
+    BREAK_RIGHT, //3
+    STRAIGHT, //4
+    FAST,//5
+    LOST,
+    STOP//6
+};
+
+String encodeDirection(MOVE_NEEDED direction) {
+    switch (direction) {
+    case SMALL_LEFT:
+        return "SMALL_LEFT";
+    case SMALL_RIGHT:
+        return "SMALL_RIGHT";
+    case BREAK_LEFT:
+        return "BREAK_LEFT";
+    case BREAK_RIGHT:
+        return "BREAK_RIGHT";
+    case STRAIGHT:
+        return "STRAIGHT";
+    case FAST:
+        return "FAST";
+    case LOST:
+        return "LOST";
+    case STOP:
+        return "STOP";
+    default:
+        return "NONE";
+    }
+
+}
+
+
 #endif

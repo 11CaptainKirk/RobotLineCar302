@@ -3,10 +3,7 @@
 
 
 
-enum TURN_DIRECTION {
-    LEFT,
-    RIGHT,
-};
+
 
 
 void spinMotor(int motorSpeed, int motor) {
@@ -57,4 +54,11 @@ void turn(TURN_DIRECTION direction, uint8_t turnSpeed) {
         spinMotor(turnSpeed, PWMA);
         spinMotor(-turnSpeed, PWMB);
     }
+}
+
+
+void driveForwardToPivot() {
+    speed(100);
+    delay(MS_TO_PIVOT);
+    speed(0);
 }
