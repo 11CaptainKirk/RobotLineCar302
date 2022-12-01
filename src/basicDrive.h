@@ -1,3 +1,7 @@
+#ifndef BASIC_DRIVE
+#define BASIC_DRIVE
+
+
 #include "Arduino.h"
 #include "globalDefines.h"
 
@@ -62,3 +66,5 @@ void driveForwardToPivot() {
     delay(MS_TO_PIVOT);
     speed(0);
 }
+
+#endif

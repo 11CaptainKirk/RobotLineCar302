@@ -1,3 +1,7 @@
+#ifndef NAV
+#define NAV
+
+
 #include "Arduino.h"
 #include "globalDefines.h"
 
@@ -58,3 +62,6 @@ MOVE_NEEDED moveNeeded() {
         return STOP;
     }
 }
+
+
+#endif

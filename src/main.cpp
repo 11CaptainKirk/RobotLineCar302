@@ -1,47 +1,8 @@
 
 #include "Arduino.h"
 #include "basicDrive.h"
-#include "navigation.h"
-
-
-
-
-
-void drive() {
-  MOVE_NEEDED move = moveNeeded();
-  p("move: " + encodeDirection(move));
-  switch (move) {
-  case STRAIGHT:
-    speed(100);
-    break;
-  case SMALL_LEFT:
-    turn(LEFT, 150);
-    break;
-  case SMALL_RIGHT:
-    turn(RIGHT, 150);
-    break;
-  case BREAK_LEFT:
-    driveForwardToPivot();
-    while (moveNeeded() != STRAIGHT) {
-      turn(LEFT, 100);
-      delay(50);
-    }
-    break;
-  case BREAK_RIGHT:
-    driveForwardToPivot();
-    while (moveNeeded() != STRAIGHT) {
-      turn(RIGHT, 100);
-      delay(50);
-    }
-    break;
-  case FAST:
-    speed(200);
-    break;
-  case STOP:
-    speed(0);
-    break;
-  }
-}
+//#include "navigation.h"
+#include "driveLogic.hh"
 
 
 void setup() {
