@@ -15,8 +15,12 @@
 
 #define ENABLE_SWITCH 7
 
-#define WHITE_MAX 750
-#define BLACK_MIN 751
+#define WHITE_MAX 870 
+#define BLACK_MIN 871
+
+#define STRAIGHT_CONST 30
+#define SM_TURN_CONST 5
+#define LG_TURN_CONST 5
 
 #define MS_TO_PIVOT 650 // the number of MS to drive before we reach the pivot point at 100 speed
 
@@ -52,11 +56,12 @@ enum TURN_DIRECTION {
 enum MOVE_NEEDED {
     SMALL_LEFT, //0
     SMALL_RIGHT, //1
-    BREAK_LEFT, //2
-    BREAK_RIGHT, //3
+    BIG_LEFT, //2
+    BIG_RIGHT, //3
     STRAIGHT, //4
     FAST,//5
     LOST,
+    U_TURN,
     STOP,//6
     NO_MOVE
 };
@@ -74,10 +79,10 @@ String encodeDirection(MOVE_NEEDED direction) {
         return "SMALL_LEFT";
     case SMALL_RIGHT:
         return "SMALL_RIGHT";
-    case BREAK_LEFT:
-        return "BREAK_LEFT";
-    case BREAK_RIGHT:
-        return "BREAK_RIGHT";
+    case BIG_LEFT:
+        return "BIG_LEFT";
+    case BIG_RIGHT:
+        return "BIG_RIGHT";
     case STRAIGHT:
         return "STRAIGHT";
     case FAST:
@@ -86,8 +91,10 @@ String encodeDirection(MOVE_NEEDED direction) {
         return "LOST";
     case STOP:
         return "STOP";
+    case NO_MOVE:
+        return "NO_MOVE";
     default:
-        return "NONE";
+        return "ERROR";
     }
 
 }

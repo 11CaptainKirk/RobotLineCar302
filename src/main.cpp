@@ -36,7 +36,7 @@ void loop() {
   drive(turnsToTake);
   // function to figure out where we are
   // Detect obstacles function
-  delay(30);
+  delay(50);
   digitalWrite(2, LOW);
   digitalWrite(3, LOW);
   digitalWrite(4, LOW);
