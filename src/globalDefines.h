@@ -13,10 +13,12 @@
 #define LINE_MID A1
 #define LINE_RIGHT A2
 
-#define WHITE_MAX 750
-#define BLACK_MIN 750
+#define ENABLE_SWITCH 7
 
-#define MS_TO_PIVOT 200 // the number of MS to drive before we reach the pivot point at 100 speed
+#define WHITE_MAX 750
+#define BLACK_MIN 751
+
+#define MS_TO_PIVOT 650 // the number of MS to drive before we reach the pivot point at 100 speed
 
 #define PRINTS true
 
@@ -27,6 +29,9 @@
 #define p(x)
 #define pl(x)
 #endif
+
+
+
 
 // ENUMS
 
@@ -41,6 +46,7 @@ enum COLOR {
 enum TURN_DIRECTION {
     LEFT,
     RIGHT,
+    NONE
 };
 
 enum MOVE_NEEDED {
@@ -51,8 +57,16 @@ enum MOVE_NEEDED {
     STRAIGHT, //4
     FAST,//5
     LOST,
-    STOP//6
+    STOP,//6
+    NO_MOVE
 };
+
+// Global Vars
+TURN_DIRECTION lastTurn = NONE;
+MOVE_NEEDED lastMove = NO_MOVE;
+
+
+
 
 String encodeDirection(MOVE_NEEDED direction) {
     switch (direction) {

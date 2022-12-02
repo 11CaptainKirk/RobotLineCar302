@@ -61,9 +61,12 @@ void turn(TURN_DIRECTION direction, uint8_t turnSpeed) {
 
 
 void driveForwardToPivot() {
-    speed(100);
+    speed(170);
+    pl("DRIVING FORWARD TO PIVOT");
     delay(MS_TO_PIVOT);
+    pl("DONE DRIVING FORWARD TO PIVOT");
     speed(0);
+    delay(500);
 }
 
 #endif
